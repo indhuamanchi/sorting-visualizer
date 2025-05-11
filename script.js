@@ -46,43 +46,45 @@ async function bubbleSort() {
 bubbleSortBtn.addEventListener("click", bubbleSort);
 
 async function selectionSort() {
-    let bars = document.querySelectorAll(".bar");
-  
-    for (let i = 0; i < bars.length; i++) {
-      let minIndex = i;
-      bars[minIndex].style.backgroundColor = "blue";
-  
-      for (let j = i + 1; j < bars.length; j++) {
-        bars[j].style.backgroundColor = "red";
-  
-        await new Promise(resolve => setTimeout(resolve, 50));
-  
-        if (array[j] < array[minIndex]) {
-          bars[minIndex].style.backgroundColor = "teal";
-          minIndex = j;
-          bars[minIndex].style.backgroundColor = "blue";
-        } else {
-          bars[j].style.backgroundColor = "teal";
-        }
+  let bars = document.querySelectorAll(".bar");
+
+  for (let i = 0; i < array.length; i++) {
+    let minIndex = i;
+
+    bars[minIndex].style.backgroundColor = "blue"; // highlight current min
+
+    for (let j = i + 1; j < array.length; j++) {
+      bars[j].style.backgroundColor = "red"; // comparing
+
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      if (array[j] < array[minIndex]) {
+        bars[minIndex].style.backgroundColor = "teal"; // reset previous min
+        minIndex = j;
+        bars[minIndex].style.backgroundColor = "blue"; // new min
+      } else {
+        bars[j].style.backgroundColor = "teal"; // reset if not min
       }
-  
-      if (minIndex !== i) {
-        let temp = array[i];
-        array[i] = array[minIndex];
-        array[minIndex] = temp;
-  
-        bars[i].style.height = `${array[i] * 3}px`;
-        bars[minIndex].style.height = `${array[minIndex] * 3}px`;
-      }
-  
-      bars[minIndex].style.backgroundColor = "teal";
-      bars[i].style.backgroundColor = "green"; // mark as sorted
     }
+
+    // Swap elements in array
+    if (minIndex !== i) {
+      [array[i], array[minIndex]] = [array[minIndex], array[i]];
+
+      // Swap heights visually
+      bars[i].style.height = `${array[i] * 3}px`;
+      bars[minIndex].style.height = `${array[minIndex] * 3}px`;
+    }
+
+    // Reset minIndex color (if not current sorted i)
+    if (minIndex !== i) bars[minIndex].style.backgroundColor = "teal";
+
+    bars[i].style.backgroundColor = "green"; // mark sorted
   }
-  
-  const selectionSortBtn = document.getElementById("selection-sort-btn");
-  selectionSortBtn.addEventListener("click", selectionSort);
-  
+}
+const selectionSortBtn = document.getElementById("selection-sort-btn");
+selectionSortBtn.addEventListener("click", selectionSort);
+
   async function insertionSort() {
     let bars = document.querySelectorAll(".bar");
   
