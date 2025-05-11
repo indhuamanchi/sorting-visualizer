@@ -188,6 +188,23 @@ async function selectionSort() {
     }
   });
 
+
+
+  // Utility function to update bar height visually
+  function updateBar(i) {
+    const bars = document.querySelectorAll(".bar");
+    bars[i].style.height = `${array[i] * 3}px`;
+  }
+  
+  // Optional utility to regenerate bar visuals after sorting
+  function renderArray() {
+    const bars = document.querySelectorAll(".bar");
+    for (let i = 0; i < array.length; i++) {
+      bars[i].style.height = `${array[i] * 3}px`;
+    }
+  }
+  
+  // Quick Sort
   async function quickSort(start, end) {
     if (start >= end) return;
   
@@ -196,12 +213,13 @@ async function selectionSort() {
     await quickSort(pivotIndex + 1, end);
   }
   
+  // Partition function
   async function partition(start, end) {
     const bars = document.querySelectorAll(".bar");
     let pivot = array[end];
     bars[end].style.backgroundColor = "blue";
-    let i = start - 1;
   
+    let i = start - 1;
     for (let j = start; j < end; j++) {
       bars[j].style.backgroundColor = "red";
       await new Promise(resolve => setTimeout(resolve, 50));
@@ -209,21 +227,22 @@ async function selectionSort() {
       if (array[j] < pivot) {
         i++;
         [array[i], array[j]] = [array[j], array[i]];
-        bars[i].style.height = `${array[i] * 3}px`;
-        bars[j].style.height = `${array[j] * 3}px`;
+        updateBar(i);
+        updateBar(j);
       }
   
       bars[j].style.backgroundColor = "teal";
     }
   
     [array[i + 1], array[end]] = [array[end], array[i + 1]];
-    bars[i + 1].style.height = `${array[i + 1] * 3}px`;
-    bars[end].style.height = `${array[end] * 3}px`;
+    updateBar(i + 1);
+    updateBar(end);
     bars[end].style.backgroundColor = "teal";
   
     return i + 1;
   }
   
+  // Button event listener
   const quickSortBtn = document.getElementById("quick-sort-btn");
   quickSortBtn.addEventListener("click", async () => {
     await quickSort(0, array.length - 1);
