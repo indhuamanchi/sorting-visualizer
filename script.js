@@ -2,6 +2,15 @@ const container = document.getElementById("array-container");
 const generateBtn = document.getElementById("generate-btn");
 const bubbleSortBtn = document.getElementById("bubble-sort-btn");
 
+function toggleButtons(disabled) {
+  generateBtn.disabled = disabled;
+  bubbleSortBtn.disabled = disabled;
+  selectionSortBtn.disabled = disabled;
+  insertionSortBtn.disabled = disabled;
+  mergeSortBtn.disabled = disabled;
+  quickSortBtn.disabled = disabled;
+}
+
 let array = [];
 
 function generateArray() {
@@ -21,6 +30,7 @@ generateBtn.addEventListener("click", generateArray);
 generateArray();
 
 async function bubbleSort() {
+  toggleButtons(true); // disable
   let bars = document.querySelectorAll(".bar");
   for (let i = 0; i < array.length - 1; i++) {
     for (let j = 0; j < array.length - i - 1; j++) {
@@ -41,11 +51,13 @@ async function bubbleSort() {
       bars[j + 1].style.backgroundColor = "teal";
     }
   }
+  toggleButtons(false); // re-enable
 }
 
 bubbleSortBtn.addEventListener("click", bubbleSort);
 
 async function selectionSort() {
+  toggleButtons(true); // disable
   let bars = document.querySelectorAll(".bar");
 
   for (let i = 0; i < array.length; i++) {
@@ -81,11 +93,13 @@ async function selectionSort() {
 
     bars[i].style.backgroundColor = "green"; // mark sorted
   }
+   toggleButtons(false); // re-enable
 }
 const selectionSortBtn = document.getElementById("selection-sort-btn");
 selectionSortBtn.addEventListener("click", selectionSort);
 
   async function insertionSort() {
+     toggleButtons(true); // disable
     let bars = document.querySelectorAll(".bar");
   
     for (let i = 1; i < bars.length; i++) {
@@ -120,12 +134,14 @@ selectionSortBtn.addEventListener("click", selectionSort);
     for (let i = 0; i < bars.length; i++) {
       bars[i].style.backgroundColor = "green";
     }
+    toggleButtons(false); // re-enable
   }
   
   const insertionSortBtn = document.getElementById("insertion-sort-btn");
   insertionSortBtn.addEventListener("click", insertionSort);
   
   async function mergeSort(start, end) {
+     toggleButtons(true); // disable
     if (start >= end) return;
   
     const mid = Math.floor((start + end) / 2);
@@ -176,6 +192,7 @@ selectionSortBtn.addEventListener("click", selectionSort);
       k++;
       await new Promise(resolve => setTimeout(resolve, 50));
     }
+    toggleButtons(false); // re-enable
   }
   
   const mergeSortBtn = document.getElementById("merge-sort-btn");
@@ -208,6 +225,7 @@ selectionSortBtn.addEventListener("click", selectionSort);
   
   // Quick Sort
   async function quickSort(start, end) {
+    toggleButtons(true); 
     if (start >= end) return;
   
     let pivotIndex = await partition(start, end);
@@ -242,6 +260,7 @@ selectionSortBtn.addEventListener("click", selectionSort);
     bars[end].style.backgroundColor = "teal";
   
     return i + 1;
+    toggleButtons(false); // re-enable
   }
   
   // Button event listener
